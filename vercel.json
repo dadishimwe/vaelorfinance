@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/coming-soon.html",
+      "permanent": false
+    },
+    {
+      "source": "/((?!coming-soon\\.html$|images/).*)",
+      "destination": "/coming-soon.html",
+      "permanent": false
+    }
+  ]
+}
