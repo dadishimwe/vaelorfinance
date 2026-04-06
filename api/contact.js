@@ -108,11 +108,13 @@ export default async function handler(req, res) {
     const errText = await resp.text().catch(() => "");
     // Log full error server-side for debugging.
     console.error("Resend send failed", { status: resp.status, body: errText });
-    // Return a concise message to the client.
-    return res.status(502).json({
+    // Return a concise message to the client (include a small, non-sensitive snippet for debugging).
+    const detail = (errText || "").toString().replace(/\s+/g, " ").trim().slice(0, 300);
+    return res.status(resp.status).json({
       ok: false,
       error: "Email failed",
       status: resp.status,
+      detail,
     });
   }
 
