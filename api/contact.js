@@ -61,6 +61,7 @@ export default async function handler(req, res) {
 
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) return res.status(500).send("Email not configured");
+  const fromEmail = (process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev").toString();
 
   const firstName = (data["First-Name"] || "").toString().trim();
   const lastName = (data["Last-Name"] || "").toString().trim();
@@ -95,7 +96,7 @@ export default async function handler(req, res) {
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      from: "Vaelor Finance Website <no-reply@vaelorfinance.com>",
+      from: `Vaelor Finance Website <${fromEmail}>`,
       to,
       reply_to: email,
       subject,
@@ -104,9 +105,17 @@ export default async function handler(req, res) {
   });
 
   if (!resp.ok) {
-    return res.status(502).send("Email failed");
+    const errText = await resp.text().catch(() => "");
+    // Log full error server-side for debugging.
+    console.error("Resend send failed", { status: resp.status, body: errText });
+    // Return a concise message to the client.
+    return res.status(502).json({
+      ok: false,
+      error: "Email failed",
+      status: resp.status,
+    });
   }
 
-  return res.status(200).send("OK");
+  return res.status(200).json({ ok: true });
 }
 
