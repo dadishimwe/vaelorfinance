@@ -128,4 +128,5 @@ if(!resp.ok){setFail((payload&&payload.detail)||'We could not send your message 
 show(done);form.reset();if(submit){submit.disabled=false;submit.value='Submit';}
 done&&done.scrollIntoView({behavior:'smooth',block:'center'});
 }catch(err){setFail('We could not send your message right now. Please try again shortly.');show(fail);if(submit){submit.disabled=false;submit.value='Submit';}}
-});});</script></body></html>
+});});</script><script type="text/javascript">window.__vaelorMobileNav=true;document.addEventListener('DOMContentLoaded',function(){var nav=document.querySelector('.navbar.w-nav');if(!nav)return;var btn=nav.querySelector('.menu-button.w-nav-button');var menu=nav.querySelector('.nave-menu.w-nav-menu');if(!btn||!menu)return;function setOpen(open){btn.classList.toggle('w--open',open);menu.classList.toggle('w--open',open);menu.style.display=open?'block':'none';btn.setAttribute('aria-expanded',open?'true':'false');}
+var mq=window.matchMedia&&window.matchMedia('(max-width: 991px)');if(mq&&mq.matches){setOpen(false);}btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();setOpen(!menu.classList.contains('w--open'));});document.addEventListener('click',function(e){if(!nav.contains(e.target))setOpen(false);});});</script></body></html>
