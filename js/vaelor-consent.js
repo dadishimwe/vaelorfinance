@@ -1,18 +1,18 @@
 (function () {
   var MEASUREMENT_ID = "G-7VDGW720LJ";
-  var STORAGE_KEY = "vaelor-consent";
+  var STORAGE_KEY = "vaelor-notice";
 
-  function choice() {
+  function dismissed() {
     try {
-      return localStorage.getItem(STORAGE_KEY);
+      return localStorage.getItem(STORAGE_KEY) === "dismissed";
     } catch (e) {
-      return null;
+      return false;
     }
   }
 
-  function remember(value) {
+  function rememberDismissed() {
     try {
-      localStorage.setItem(STORAGE_KEY, value);
+      localStorage.setItem(STORAGE_KEY, "dismissed");
     } catch (e) {}
   }
 
@@ -36,35 +36,23 @@
     if (banner) banner.remove();
   }
 
-  function apply(value) {
-    var previous = choice();
-    remember(value);
-    hideBanner();
-    if (value === "accepted") {
-      loadAnalytics();
-      return;
-    }
-    if (previous === "accepted") window.location.reload();
-  }
-
   function showBanner() {
     if (document.getElementById("vaelor-consent")) return;
     var banner = document.createElement("div");
     banner.id = "vaelor-consent";
     banner.setAttribute("role", "dialog");
-    banner.setAttribute("aria-label", "Cookie choices");
+    banner.setAttribute("aria-label", "Site measurement");
     banner.innerHTML =
       '<div class="vaelor-consent-card">' +
-      '<p>We use cookies only to understand which pages are visited and how long people stay. Nothing is recorded until you accept. <a href="privacy.html">Privacy policy</a></p>' +
+      '<p>Pages you open and your approximate location are recorded on every visit. <a href="privacy.html">Privacy policy</a></p>' +
       '<div class="vaelor-consent-actions">' +
-      '<button type="button" data-consent="rejected">Reject</button>' +
-      '<button type="button" data-consent="accepted">Accept</button>' +
+      '<button type="button" data-notice-close>Close</button>' +
       "</div></div>";
     document.body.appendChild(banner);
     banner.addEventListener("click", function (event) {
-      var button = event.target.closest("[data-consent]");
-      if (!button) return;
-      apply(button.getAttribute("data-consent"));
+      if (!event.target.closest("[data-notice-close]")) return;
+      rememberDismissed();
+      hideBanner();
     });
   }
 
@@ -75,9 +63,7 @@
     ".vaelor-consent-card p{margin:0 0 14px;font-family:Arial,sans-serif;font-size:15px;line-height:1.5}" +
     ".vaelor-consent-card a{color:#8a6420}" +
     ".vaelor-consent-actions{display:flex;justify-content:flex-end;gap:10px}" +
-    ".vaelor-consent-actions button{font-family:\"Geist Mono\",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:10px 16px;cursor:pointer}" +
-    ".vaelor-consent-actions [data-consent=rejected]{background:transparent;color:#1c1416;border:1px solid rgba(28,20,22,.35)}" +
-    ".vaelor-consent-actions [data-consent=accepted]{background:#111;color:#f7f3ea;border:1px solid #111}" +
+    ".vaelor-consent-actions button{font-family:\"Geist Mono\",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:10px 16px;cursor:pointer;background:#111;color:#f7f3ea;border:1px solid #111}" +
     ".vaelor-cookie-settings{background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;text-align:left}" +
     "@media (max-width:640px){.vaelor-consent-actions{flex-direction:column}.vaelor-consent-actions button{width:100%}}";
   document.head.appendChild(style);
@@ -89,8 +75,9 @@
     showBanner();
   });
 
-  if (choice() === "accepted") loadAnalytics();
-  else if (choice() !== "rejected") {
+  loadAnalytics();
+
+  if (!dismissed()) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", showBanner);
     } else showBanner();
