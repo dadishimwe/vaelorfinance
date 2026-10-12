@@ -50,10 +50,10 @@
     banner.setAttribute("aria-label", "Cookie choices");
     banner.innerHTML =
       '<div class="vaelor-consent-card">' +
-      '<p>Pages you open and your approximate location are recorded on every visit. Accept or Reject is saved for any further measurement. <a href="privacy.html">Privacy policy</a></p>' +
+      '<p>Vaelor uses strictly necessary cookies to provide you with a more personalized user experience. By clicking “Accept all optional cookies”, you agree to the placement of optional cookies on your device. <a href="privacy.html">Privacy Policy</a></p>' +
       '<div class="vaelor-consent-actions">' +
       '<button type="button" data-consent="rejected">Reject</button>' +
-      '<button type="button" data-consent="accepted">Accept</button>' +
+      '<button type="button" data-consent="accepted">Accept all optional cookies</button>' +
       "</div></div>";
     document.body.appendChild(banner);
     banner.addEventListener("click", function (event) {
@@ -68,10 +68,10 @@
   var style = document.createElement("style");
   style.textContent =
     "#vaelor-consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:2000;display:flex;justify-content:center}" +
-    ".vaelor-consent-card{width:min(720px,100%);background:#F4F0E8;color:#1c1416;border-radius:18px;padding:18px 18px 16px;box-shadow:0 12px 40px rgba(0,0,0,.28)}" +
+    ".vaelor-consent-card{width:min(820px,100%);background:#F4F0E8;color:#1c1416;border-radius:18px;padding:18px 18px 16px;box-shadow:0 12px 40px rgba(0,0,0,.28)}" +
     ".vaelor-consent-card p{margin:0 0 14px;font-family:Arial,sans-serif;font-size:15px;line-height:1.5}" +
     ".vaelor-consent-card a{color:#8a6420}" +
-    ".vaelor-consent-actions{display:flex;justify-content:flex-end;gap:10px}" +
+    ".vaelor-consent-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px}" +
     ".vaelor-consent-actions button{font-family:\"Geist Mono\",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:10px 16px;cursor:pointer}" +
     ".vaelor-consent-actions [data-consent=rejected]{background:transparent;color:#1c1416;border:1px solid rgba(28,20,22,.35)}" +
     ".vaelor-consent-actions [data-consent=accepted]{background:#111;color:#f7f3ea;border:1px solid #111}" +
