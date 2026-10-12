@@ -1,1 +1,8 @@
-{}
+{
+  "redirects": [
+    { "source": "/about", "destination": "/#team", "permanent": false },
+    { "source": "/about.html", "destination": "/#team", "permanent": false },
+    { "source": "/services", "destination": "/#what-we-do", "permanent": false },
+    { "source": "/services.html", "destination": "/#what-we-do", "permanent": false }
+  ]
+}
